@@ -37,6 +37,7 @@ module Devise
 
       # Generates password encryption based on the given value.
       def password=(new_password)
+        self.encrypted_password_will_change! #trigger validations of the newly set password
         @password = new_password
         self.encrypted_password = password_digest(@password) if @password.present?
       end

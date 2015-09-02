@@ -6,7 +6,6 @@ module Devise
   # page based on current scope and mapping. If no scope is given, redirect
   # to the default_url.
   class FailureApp < ActionController::Metal
-    include ActionController::RackDelegation
     include ActionController::UrlFor
     include ActionController::Redirecting
 
@@ -44,6 +43,7 @@ module Devise
       self.status = 401
       self.headers["WWW-Authenticate"] = %(Basic realm=#{Devise.http_authentication_realm.inspect}) if http_auth_header?
       self.content_type = request.format.to_s
+      response.body = http_auth_body if response
       self.response_body = http_auth_body
     end
 
